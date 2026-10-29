@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1250" viewBox="0 0 1800 1250">
+<rect width="100%" height="100%" fill="#f8fafc"/>
+<style>
+.title{font:700 34px Inter,Arial,sans-serif;fill:#0f172a} .subtitle{font:16px Inter,Arial,sans-serif;fill:#475569}
+.boundary{fill:#fff;stroke:#64748b;stroke-width:2.5} .group{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.5}
+.groupTitle{font:700 19px Inter,Arial,sans-serif;fill:#334155} .uc{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.8}
+.ucText{font:15px Inter,Arial,sans-serif;fill:#1e3a8a;text-anchor:middle;dominant-baseline:middle}
+.actorText{font:700 18px Inter,Arial,sans-serif;fill:#0f172a;text-anchor:middle}
+.link{stroke:#64748b;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.note{font:14px Inter,Arial,sans-serif;fill:#475569} .pill{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}
+</style>
+<text x="70" y="62" class="title">Studia — UML Use Case Diagram</text>
+<text x="70" y="92" class="subtitle">System Requirements Document v0.2 • Single actor: Student</text>
+<rect x="300" y="130" width="1430" height="1030" rx="18" class="boundary"/>
+<text x="340" y="172" class="groupTitle" style="font-size:24px">Studia System</text>
+
+<circle cx="150" cy="530" r="28" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+<line x1="150" y1="558" x2="150" y2="635" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+<line x1="105" y1="585" x2="195" y2="585" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+<line x1="150" y1="635" x2="112" y2="690" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+<line x1="150" y1="635" x2="188" y2="690" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+<text x="150" y="730" class="actorText">Student</text>
+<rect x="340" y="205" width="650" height="270" rx="14" class="group"/>
+<text x="362" y="237" class="groupTitle">Account &amp; Authentication</text>
+<rect x="1020" y="205" width="660" height="270" rx="14" class="group"/>
+<text x="1042" y="237" class="groupTitle">Course Management</text>
+<rect x="340" y="515" width="900" height="390" rx="14" class="group"/>
+<text x="362" y="547" class="groupTitle">Task Management</text>
+<rect x="1280" y="515" width="400" height="390" rx="14" class="group"/>
+<text x="1302" y="547" class="groupTitle">File Management</text>
+<rect x="740" y="950" width="540" height="150" rx="14" class="group"/>
+<text x="762" y="982" class="groupTitle">Dashboard</text>
+<path d="M 195 610 L 250 610 L 250 270 L 353 270" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 270 L 523 270" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 270 L 693 270" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 340 L 823 340" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 270 L 1033 270" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 270 L 1203 270" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 270 L 1373 270" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 340 L 1523 340" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 590 L 373 590" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 590 L 573 590" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 590 L 773 590" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 590 L 973 590" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 700 L 403 700" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 700 L 653 700" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 700 L 923 700" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 590 L 1303 590" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 590 L 1493 590" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 700 L 1303 700" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 700 L 1493 700" class="link" opacity="0.42"/>
+<path d="M 195 610 L 250 610 L 250 1020 L 933 1020" class="link" opacity="0.42"/>
+<ellipse cx="430" cy="270" rx="77" ry="30" class="uc"/>
+<text x="430" y="270" class="ucText">Register</text>
+<ellipse cx="600" cy="270" rx="77" ry="30" class="uc"/>
+<text x="600" y="270" class="ucText">Log in</text>
+<ellipse cx="770" cy="270" rx="77" ry="30" class="uc"/>
+<text x="770" y="270" class="ucText">Log out</text>
+<ellipse cx="900" cy="340" rx="77" ry="30" class="uc"/>
+<text x="900" y="340" class="ucText">Reset password</text>
+<ellipse cx="1110" cy="270" rx="77" ry="30" class="uc"/>
+<text x="1110" y="270" class="ucText">Add course</text>
+<ellipse cx="1280" cy="270" rx="77" ry="30" class="uc"/>
+<text x="1280" y="270" class="ucText">View courses</text>
+<ellipse cx="1450" cy="270" rx="77" ry="30" class="uc"/>
+<text x="1450" y="270" class="ucText">Edit course</text>
+<ellipse cx="1600" cy="340" rx="77" ry="30" class="uc"/>
+<text x="1600" y="340" class="ucText">Delete course</text>
+<ellipse cx="450" cy="590" rx="77" ry="30" class="uc"/>
+<text x="450" y="590" class="ucText">Create task</text>
+<ellipse cx="650" cy="590" rx="77" ry="30" class="uc"/>
+<text x="650" y="590" class="ucText">Edit task</text>
+<ellipse cx="850" cy="590" rx="77" ry="30" class="uc"/>
+<text x="850" y="590" class="ucText">Delete task</text>
+<ellipse cx="1050" cy="590" rx="77" ry="30" class="uc"/>
+<text x="1050" y="590" class="ucText">Filter tasks</text>
+<ellipse cx="480" cy="700" rx="92" ry="30" class="uc"/>
+<text x="480" y="700" class="ucText">Complete / reopen task</text>
+<ellipse cx="730" cy="700" rx="92" ry="30" class="uc"/>
+<text x="730" y="700" class="ucText">Set deadline &amp; priority</text>
+<ellipse cx="1000" cy="700" rx="92" ry="30" class="uc"/>
+<text x="1000" y="700" class="ucText">Link task to course</text>
+<ellipse cx="1380" cy="590" rx="77" ry="30" class="uc"/>
+<text x="1380" y="590" class="ucText">Attach to course</text>
+<ellipse cx="1570" cy="590" rx="77" ry="30" class="uc"/>
+<text x="1570" y="590" class="ucText">Attach to task</text>
+<ellipse cx="1380" cy="700" rx="77" ry="30" class="uc"/>
+<text x="1380" y="700" class="ucText">View / download</text>
+<ellipse cx="1570" cy="700" rx="77" ry="30" class="uc"/>
+<text x="1570" y="700" class="ucText">Delete file</text>
+<ellipse cx="1010" cy="1020" rx="77" ry="30" class="uc"/>
+<text x="1010" y="1020" class="ucText">View dashboard</text>
+<rect x="1320" y="950" width="360" height="150" rx="12" class="pill"/>
+<text x="1342" y="985" style="font:700 16px Inter,Arial,sans-serif;fill:#166534">Ownership / privacy rule</text>
+<text x="1342" y="1015" class="note">Students can access only their own</text>
+<text x="1342" y="1038" class="note">courses, tasks and attached files.</text>
+<text x="70" y="1200" class="note">Note: simplified visual overview. For strict UML, use direct actor–use-case associations and UML include/extend relations only where needed.</text>
+</svg>
