@@ -1,13 +1,71 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
+// Prisma schema for Studia auth
+// docs: https://pris.ly/d/prisma-schema
+//
+// OTP security notes:
+// - codeHash stores an HMAC (server-side secret) of the 6-digit code,
+//   NOT a plain hash — a 6-digit code is only 1M possibilities, so a
+//   plain hash would be brute-forceable if the table leaks.
+// - One active code per (user, purpose): resends upsert and replace.
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+enum OtpPurpose {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
+model User {
+  id              String    @id @default(uuid()) @db.Uuid
+  email           String    @unique
+  passwordHash    String
+  fullName        String
+  emailVerifiedAt DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  refreshTokens RefreshToken[]
+  otpCodes      OtpCode[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id         String    @id @default(uuid()) @db.Uuid
+  userId     String    @db.Uuid
+  tokenHash  String    @unique
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  userAgent  String?
+  ip         String?
+  lastUsedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model OtpCode {
+  id        String     @id @default(uuid()) @db.Uuid
+  userId    String     @db.Uuid
+  purpose   OtpPurpose
+  codeHash  String
+  usedAt    DateTime?
+  expiresAt DateTime
+  attempts  Int        @default(0)
+  createdAt DateTime   @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // One active code per (user, purpose); resend = upsert, replaces old code.
+  // Also serves userId-only lookups (leading-column prefix).
+  @@unique([userId, purpose])
+  @@map("otp_codes")
 }

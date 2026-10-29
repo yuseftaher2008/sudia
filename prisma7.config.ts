@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { defineConfig } from "prisma/config";
+import { defineConfig, env } from "prisma/config";
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
@@ -7,6 +7,9 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    // Migrate connects here (session-capable connection, not the
+    // transaction-mode pooler — schema-engine hangs on :6543).
+    // The runtime client uses DATABASE_URL via the pg adapter instead.
+    url: env("DIRECT_URL"),
   },
 });
