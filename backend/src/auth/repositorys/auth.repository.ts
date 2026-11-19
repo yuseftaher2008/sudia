@@ -1,6 +1,6 @@
-import { UserCreateInput } from "../../generated/prisma/models.js";
-import { UpdateUserDto } from "./dto/update.user.dto.js";
-import {prisma} from "../lib/prisma.js";
+import { UserCreateInput } from "../../../generated/prisma/models.js";
+import { UpdateUserDto } from "../dto/update.user.dto.js";
+import {prisma} from "../../lib/prisma.js";
 
 
 export class AuthRepository {
@@ -34,6 +34,20 @@ export class AuthRepository {
     deleteUserById (id:string){
         return prisma.user.delete({
             where : {id}
+        });
+    };
+
+    setEmailVerified (id:string){
+        return prisma.user.update({
+            where:{id},
+            data:{emailVerifiedAt:new Date()}
+        });
+    };
+
+    updatePassword (id:string,passwordHash:string){
+        return prisma.user.update({
+            where:{id},
+            data:{passwordHash}
         });
     };
 }
