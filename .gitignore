@@ -4,3 +4,4 @@ node_modules/
 /backend/dist
 /.agents
 /backend/generated/prisma
+opencode.json
