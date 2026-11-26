@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { randomBytes, createHash } from "node:crypto";
+import { JWT_SECRET } from "../../lib/env.js";
 
 const ACCESS_TOKEN_TTL = "15m";
 export const REFRESH_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
@@ -11,14 +12,14 @@ export interface AccessTokenPayload {
 export class TokenService {
 
     signAccessToken (userId:string):string{
-        return jwt.sign({}, process.env.JWT_SECRET!, {
+        return jwt.sign({}, JWT_SECRET, {
             subject:userId,
             expiresIn:ACCESS_TOKEN_TTL,
         });
     };
 
     verifyAccessToken (token:string):AccessTokenPayload{
-        const payload = jwt.verify(token, process.env.JWT_SECRET!);
+        const payload = jwt.verify(token, JWT_SECRET);
         if (typeof payload === "string" || !payload.sub){
             throw new Error("Invalid token payload");
         };

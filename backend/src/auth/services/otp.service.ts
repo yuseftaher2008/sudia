@@ -2,6 +2,7 @@ import { randomInt, createHmac, timingSafeEqual } from "node:crypto";
 import { OtpRepository } from "../repositorys/otp.repository.js";
 import { OtpPurpose } from "../../../generated/prisma/enums.js";
 import { BadRequest } from "../../lib/errors.js";
+import { OTP_SECRET } from "../../lib/env.js";
 
 const OTP_TTL_MS = 10 * 60 * 1000; // 10 minutes
 const MAX_ATTEMPTS = 5;
@@ -10,7 +11,7 @@ export class OtpService {
     constructor (private otpRepository:OtpRepository){}
 
     private hashOtp (code:string){
-        return createHmac("sha256", process.env.OTP_SECRET!)
+        return createHmac("sha256", OTP_SECRET)
         .update(code)
         .digest("hex");
     }

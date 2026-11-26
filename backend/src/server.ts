@@ -1,7 +1,8 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import "dotenv/config";
+import { CORS_ORIGINS } from "./lib/env.js";
+import { securityHeaders, apiRateLimit } from "./lib/security.js";
 import { AuthRepository } from "./auth/repositorys/auth.repository.js";
 import { RefreshTokenRepository } from "./auth/repositorys/refresh-token.repository.js";
 import { OtpRepository } from "./auth/repositorys/otp.repository.js";
@@ -15,17 +16,20 @@ import { AppError } from "./lib/errors.js";
 const Port:number = Number(process.env.PORT) || 3000;
 const app = express();
 
-app.use(express.json());
+app.disable("x-powered-by");
+if (process.env.TRUST_PROXY)
+    app.set("trust proxy", Number(process.env.TRUST_PROXY) || 1);
+
+app.use(securityHeaders);
+app.use(apiRateLimit);
+app.use(express.json({ limit:"10kb" }));
 app.use(cookieParser());
-
-const corsOrigins = (process.env.CORS_ORIGIN ?? "http://localhost:5173")
-    .split(",")
-    .map((origin) => origin.trim())
-    .filter(Boolean);
-
 app.use(cors({
-    origin: corsOrigins,
-    credentials: true,
+    origin:CORS_ORIGINS,
+    credentials:true,
+    methods:["GET","POST","PUT","PATCH","DELETE"],
+    allowedHeaders:["Content-Type","Authorization"],
+    maxAge:86400,
 }));
 
 const authRepository = new AuthRepository();
@@ -48,9 +52,22 @@ app.get("/api",(_req,res) => {
 
 app.use("/api/auth", createAuthRouter(authService, tokenService));
 
+app.use((_req,res) => {
+    res.status(404).json({message:"Not found"});
+});
+
 app.use((err:unknown,_req:express.Request,res:express.Response,_next:express.NextFunction) => {
     if (err instanceof AppError){
         res.status(err.status).json({message:err.message});
+        return;
+    };
+    const e = err as {type?:string};
+    if (e?.type === "entity.parse.failed"){
+        res.status(400).json({message:"Invalid JSON body"});
+        return;
+    };
+    if (e?.type === "entity.too.large"){
+        res.status(413).json({message:"Request body too large"});
         return;
     };
     console.error(err);

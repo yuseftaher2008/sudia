@@ -8,6 +8,7 @@ import { EmailService } from "./email.service.js";
 import { TokenService } from "./token.service.js";
 import { RegisterInput, LoginInput, VerifyEmailInput, ForgotPasswordInput, VerifyResetCodeInput, ResetPasswordInput } from "../dto/auth.dto.js";
 import { Conflict, Unauthorized, Forbidden, BadRequest } from "../../lib/errors.js";
+import { BCRYPT_ROUNDS } from "../../lib/env.js";
 
 export const REFRESH_COOKIE = "refreshToken";
 
@@ -22,6 +23,10 @@ const safeUser = (user:UserModel):SafeUser => {
     const {passwordHash:_password, ...rest} = user;
     return rest;
 };
+
+// compared against when the email is unknown, so login takes the same
+// time whether or not the account exists (no user enumeration via timing)
+const DUMMY_HASH = bcrypt.hash("timing-equalization-placeholder", BCRYPT_ROUNDS);
 
 export class AuthService {
 
@@ -40,7 +45,7 @@ export class AuthService {
             throw Conflict("Email already in use");
         };
 
-        const hashedPassword = await bcrypt.hash(data.password,Number(process.env.BCRYPT_SALT_ROUNDS));
+        const hashedPassword = await bcrypt.hash(data.password, BCRYPT_ROUNDS);
         const newUser = await this.authRepository.createUser({
             fullName:data.fullName,
             email:data.email,
@@ -83,7 +88,10 @@ export class AuthService {
     async login (data:LoginInput, meta:RequestMeta){
 
         const user = await this.authRepository.findUserByEmail(data.email);
-        if (!user) throw Unauthorized("Invalid email or password");
+        if (!user){
+            await bcrypt.compare(data.password, await DUMMY_HASH);
+            throw Unauthorized("Invalid email or password");
+        }
 
         const valid = await bcrypt.compare(data.password,user.passwordHash);
         if (!valid) throw Unauthorized("Invalid email or password");
@@ -177,7 +185,7 @@ export class AuthService {
 
         await this.otpService.verifyOtp(user.id,OtpPurpose.PASSWORD_RESET,data.code);
 
-        const hashedPassword = await bcrypt.hash(data.newPassword,Number(process.env.BCRYPT_SALT_ROUNDS));
+        const hashedPassword = await bcrypt.hash(data.newPassword, BCRYPT_ROUNDS);
         await this.authRepository.updatePassword(user.id,hashedPassword);
         await this.refreshTokenRepository.revokeAllForUser(user.id);
     };
